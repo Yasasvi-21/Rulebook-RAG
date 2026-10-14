@@ -16,3 +16,7 @@ Download them from the links below into `data/raw/` using the file names shown.
 | Rummy | `rummy.pdf` | [Rummy Basics](https://www.rummyrulebook.com/pages/rummy-basics/) + [Standard Rummy](https://www.rummyrulebook.com/pages/standard-rummy/) | Manual copy of both pages into Google Docs, exported as PDF | 2026-10-13 |
 
 Web pages can change. The eval set in `eval/questions.csv` was written against the versions accessed on the dates above.
+
+
+## Design decisions
+No game named → answer per game, labeled; retrieve per game and include only games with evidence.
