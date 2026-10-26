@@ -20,3 +20,9 @@ Web pages can change. The eval set in `eval/questions.csv` was written against t
 
 ## Design decisions
 No game named → answer per game, labeled; retrieve per game and include only games with evidence.
+
+## Results
+
+| Version | Change | Recall@5 | Notes |
+|---|---|---|---|
+| v1 | Dense baseline (all-MiniLM-L6-v2, 800-char chunks) | 0.89 (31/35) | All 4 misses ranked 6–10 |
