@@ -26,3 +26,10 @@ No game named → answer per game, labeled; retrieve per game and include only g
 | Version | Change | Recall@5 | Notes |
 |---|---|---|---|
 | v1 | Dense baseline (all-MiniLM-L6-v2, 800-char chunks) | 0.89 (31/35) | All 4 misses ranked 6–10 |
+| v1 | Dense baseline | 0.89 (31/35) | Recall@10 = 1.00; all misses ranked 6–10 |
+| v2 | + Cross-encoder reranker (ms-marco-MiniLM-L-6-v2) on top 10 | 1.00 (35/35) | Fixed all 4 v1 misses, no regressions |
+
+| Version | Change | R@1 | R@3 | R@5 | Notes |
+|---|---|---|---|---|---|
+| v1 | Dense baseline (MiniLM, 800-char chunks) | 0.66 | 0.89 | 0.89 | all misses ranked 6–10 |
+| v2 | + cross-encoder reranker on top 10 | 0.74 | 0.97 | 1.00 | +X ms/query |
