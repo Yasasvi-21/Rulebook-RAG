@@ -1,2 +1,4 @@
 pymupdf==1.28.2
 ipykernel
+
+sentence-transformers== 6.2.0
