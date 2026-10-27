@@ -1,0 +1,164 @@
+id,question_type,question,expected_answer,answer,chunks,verdict,judge_note
+1,direct_lookup,How many resource cards does a city normally produce when an adjacent hex produces resources?,Two cards of that hex's resource.,"A city produces **2 resource cards** when its hex's number is rolled. [catan-p6-c1]
+
+The rule applies to the hex the city sits on, not to adjacent hexes. Settlements on that hex produce 1 card each. [catan-p6-c1]",catan-p6-c1;catan-p6-c2;catan-p6-c3,FAIL,"VERDICT: FAIL
+REASON: The answer gives the correct count of two cards, but it then claims the rule applies only to a hex the city ""sits on"" and not to adjacent hexes, which contradicts the expected answer's premise that a city produces from an adjacent hex."
+2,multi_hop,Can I build another settlement on my first turn after setup?,"Yes, during the Action phase, if you can pay its cost, connect it to your road, obey the Distance Rule, and have a settlement available. Setup does not guarantee that you can meet those conditions.","The provided rules don't cover this. The excerpts don't describe setup or first-turn restrictions.
+
+Related rules:
+- A new settlement must follow the Distance Rule, staying at least two edges away from all other buildings, and must connect to at least one of your existing roads [catan-p8-c2].
+- You have 5 settlement pieces. To build more settlements after using all 5, you must first upgrade one to a city [catan-p8-c2].",catan-p8-c2;catan-p9-c0;catan-p8-c0,FAIL,"VERDICT: FAIL
+REASON: The expected answer is a clear ""yes"" (during the Action phase, if the cost, road connection, Distance Rule, and piece availability are met), but the answer says the rules don't cover the question and never gives that answer, though it does cite the relevant distance and road rules."
+3,myth_buster,Is every development card forbidden from being used on the turn you buy it?,No. Victory Point cards bought that turn may be revealed if they give you enough points to win.,"No. Non-Victory Point development cards can't be played on the turn you buy them [catan-p9-c0] [catan-p3-c1]. The exception is Victory Point cards: you may play them on the turn you buy them, but only to win the game [catan-p3-c1].",catan-p3-c1;catan-p9-c0;catan-p9-c1,PASS,"VERDICT: PASS
+REASON: The answer says ""No"" and identifies the exception that Victory Point cards bought that turn may be revealed to win the game, matching the expected answer, with the added correct detail that non-VP cards cannot be played the turn they are bought."
+4,multi_hop,"In CATAN, how many resource cards can I hold without discarding when a 7 is rolled? Do development cards count?","Seven resource cards. A player with more than seven discards half, rounded down. Development cards do not count.","You can hold up to 7 resource cards without discarding. If you have more than 7 when a 7 is rolled, you discard half (rounded down). [catan-p6-c2]
+
+Development cards do not count. They stay hidden and don't count toward your hand when a 7 is rolled. [catan-p9-c0]",catan-p6-c2;catan-p9-c0;catan-p9-c1,PASS,"VERDICT: PASS
+REASON: The answer states the same key facts as EXPECTED: up to 7 resource cards is safe, more than 7 means discarding half rounded down, and development cards do not count."
+5,unanswerable,What penalty does the CATAN rulebook impose for flipping over the board?,Not specified in the supplied rulebook.,"The provided rules don't cover this.
+
+Closest related rule: The Catan excerpts cover variable setup (placing hexes, number discs, and the robber) and the turn structure (Production phase, then Action phase) [catan-p11-c0] [catan-p6-c0]. They say nothing about penalties for flipping the board.",catan-p11-c0;catan-p6-c0;texas_holdem-p3-c2,PASS,"VERDICT: PASS
+REASON: The answer clearly states that the provided rules do not cover a penalty for flipping the board, matching the expected ""not specified"" response."
+6,table_figure,"According to the pictured building-cost diagram, what does a development card cost?","One wool, one wheat, and one ore.","The provided rules don't cover this.
+
+Related: The excerpts say that building a development card means drawing the top card of the deck [catan-p9-c0], and that ""BUILDING COST"" headings appear with no resource amounts listed in the text [catan-p8-c0]. The cost of a development card isn't stated in the provided text.",catan-p9-c0;catan-p8-c0;catan-p9-c1,FAIL,"VERDICT: FAIL
+REASON: The expected answer is one wool, one wheat, and one ore from the pictured diagram, but the answer says the rules don't cover it, so it misses that key fact."
+7,direct_lookup,How much money do you collect when you pass or land on GO?,200 in game money from the Bank.,"When you pass or land on GO, you collect M200 from the Bank. [monopoly-p2-c0]
+
+The exception is when you're sent to Jail: you don't collect M200 for passing GO. [monopoly-p2-c3]",monopoly-p2-c0;monopoly-p2-c3;monopoly-p2-c5,PASS,"VERDICT: PASS
+REASON: The answer states the same core fact as EXPECTED, that you collect M200 from the Bank when passing or landing on GO, and its extra note about Jail is consistent with standard Monopoly rules."
+8,multi_hop,"If you own a complete colour set while in Jail, may you buy Houses? What building restrictions still apply?",Yes. You must pay the Title Deed cost and build evenly; you cannot build if a street in that set is mortgaged.,"Yes. While in Jail you can still buy Houses and Hotels [monopoly-p2-c3], and once you own a colour set you can start buying Houses at any time, not only on your turn [monopoly-p1-c1].
+
+The building restrictions still apply:
+- You must build evenly across the set [monopoly-p1-c1].
+- You cannot build a second House on a street until you have built one on each street in the set [monopoly-p1-c1].
+- A street can have no more than four Houses [monopoly-p1-c1].
+- You cannot sell or trade buildings to another player [monopoly-p1-c1].",monopoly-p2-c3;monopoly-p1-c2;monopoly-p1-c1,FAIL,"VERDICT: FAIL
+REASON: The answer says yes and lists even building, but it omits the required payment of the Title Deed cost and the rule that you cannot build on a street in the set while any street in it is mortgaged, which are key facts in the expected answer."
+9,myth_buster,Do you collect money for landing on Free Parking?,No. Nothing happens; the rulebook gives no Free Parking bonus.,"No. The rules say you don't get a bonus for landing on Free Parking [monopoly-p1-c0], and the Free Parking space reads ""Relax! Nothing happens."" [monopoly-p2-c5]",monopoly-p1-c0;monopoly-p2-c5;monopoly-p2-c3,PASS,"VERDICT: PASS
+REASON: The answer says no, that landing on Free Parking gives no bonus and nothing happens, which matches the expected answer; the bracketed citations are extra detail and do not contradict it."
+10,direct_lookup,"In Monopoly, does rolling doubles always grant another turn?","No. Doubles normally grant another turn, but three doubles in a row send you immediately to Jail.","No, not always. Rolling a double earns another turn, but rolling doubles three times in a row sends you straight to Jail, and you don't complete that third turn. [monopoly-p2-c4]",monopoly-p2-c4;monopoly-p2-c6;catan-p6-c1,PASS,"VERDICT: PASS
+REASON: The answer states that doubles normally grant another turn, that three consecutive doubles send you to Jail, and that the answer is ""no, not always,"" matching the expected answer's facts."
+11,unanswerable,What does this rulebook require if a die falls off the board?,Not specified in the supplied rulebook.,"The provided rules don't cover this.
+
+The closest related rule is the Rummy ""going out"" rule, which ends the hand when a player disposes of all their cards [rummy-p5-c1]. It doesn't mention dice or boards.",rummy-p5-c1;rummy-p3-c3;rummy-p7-c0,PASS,"VERDICT: PASS
+REASON: The answer clearly states the rulebook doesn't cover dice falling off the board, matching the expected ""not specified"" response, and the extra detail about the unrelated Rummy rule does not contradict it."
+12,table_figure,"On the illustrated Pentonville Road Title Deed, what is the rent with three Houses?",300 in game money.,"The provided rules don't cover this.
+
+The closest related information is the unlabeled rent table in [monopoly-p2-c3]. It lists amounts such as ""Rent with M40,"" ""Rent with M100,"" and ""Rent with M300,"" but doesn't name the property or show which amount corresponds to three Houses. The excerpts also don't state Pentonville Road's rent values. Related rule: a street can't be built on if any street in its colour set is mortgaged [monopoly-p1-c3].",monopoly-p2-c3;monopoly-p1-c3;monopoly-p1-c5,FAIL,"VERDICT: FAIL
+REASON: The expected answer is 300 (rent with three Houses on Pentonville Road), but the response claims the rules don't cover it, so it fails to give the key fact even though it refers to a related ""Rent with M300"" entry."
+13,direct_lookup,"In four-player Standard Rummy, how many cards is each player dealt?",Seven.,Each player is dealt **7 cards** in four-player Standard Rummy. [rummy-p4-c1],rummy-p4-c1;rummy-p4-c0;rummy-p1-c1,PASS,"VERDICT: PASS
+REASON: The answer states each player is dealt 7 cards, which matches the expected answer of seven."
+14,multi_hop,"In five-player Standard Rummy, the player left of the dealer already holds a valid set. How many cards were they dealt, and may they meld before drawing?","Six cards; no, they must draw before melding.","**Cards dealt:** 6. With 5 or 6 players, each player is dealt 6 cards [rummy-p4-c1].
+
+**Melding before drawing:** The provided rules don't cover this. The turn actions are listed in the excerpt, but the list itself is missing [rummy-p4-c1].
+
+Related: a player may go out by forming melds, laying off, or adding a final card to the discard pile. In Standard Rummy, the player must keep a spare card to discard and cannot play all remaining cards in a meld [rummy-p5-c1].",rummy-p5-c1;rummy-p4-c1;rummy-p6-c0,FAIL,"VERDICT: FAIL
+REASON: The answer correctly gives six cards but says the rules don't cover whether melding before drawing is allowed, whereas the expected answer states that the player must draw before melding."
+15,myth_buster,Can a player go out in Standard Rummy by melding every remaining card without discarding?,No. The standard rule requires a final discard. Going out without one is an optional variation.,"No. In Standard Rummy, a player must keep a spare card to discard and cannot play all remaining cards in a meld [rummy-p5-c1]. Going out requires a final card added to the discard pile.
+
+A common variant allows melding all remaining cards [rummy-p5-c1], and a ""lazy go out"" variation lets a player go out by melding their last cards without discarding [rummy-p6-c2]. Those variants are not Standard Rummy.",rummy-p5-c1;rummy-p6-c2;rummy-p5-c0,PASS,"VERDICT: PASS
+REASON: The answer says no, that Standard Rummy requires a final discard, and that melding all remaining cards without discarding is only a variant, which matches the expected answer."
+16,disambiguation,"In Standard Rummy, how many points is an Ace left in an opponent's hand worth under the default rule?",One point; a high-Ace rule is optional.,"Under the default scoring in Standard Rummy, an Ace left in an opponent's hand is worth 1 point. [rummy-p5-c1]
+
+The 15-point value applies only under the ""High Ace"" variant. [rummy-p6-c2]",rummy-p7-c0;rummy-p5-c1;rummy-p6-c2,PASS,"VERDICT: PASS
+REASON: The answer states the default Ace value is 1 point and that the higher value applies only under the optional High Ace variant, matching the expected answer."
+17,unanswerable,How many seconds may a Standard Rummy player take before receiving a time penalty?,Not specified in the supplied rulebook.,"The provided rules don't cover this.
+
+The closest related rule is the ""Penalty points"" variant, which deducts remaining hand points from a player's score rather than giving them to the winner. It does not involve time limits [rummy-p6-c2].",rummy-p7-c0;rummy-p6-c0;rummy-p6-c2,PASS,"VERDICT: PASS
+REASON: The answer clearly states the provided rules don't cover the time limit, matching the expected ""not specified"" response; the extra note about penalty points is additional context and does not contradict it."
+18,table_figure,"Using the Card/Value table, how many points does the winner receive from an opponent holding an Ace, a Jack, and a seven?",18 points: 1 + 10 + 7.,"The provided rules don't cover this. The Card/Value table isn't included in the excerpts, so the Jack and seven values can't be confirmed.
+
+Related rules:
+- Remaining cards' values are added to the winning player's score at the end of a hand. [rummy-p6-c0]
+- An Ace is valued at 15 points when it can be high or either low or high, and typically 1 point when it can only be low. [rummy-p2-c2]",rummy-p2-c2;rummy-p6-c0;poker-p2-c1,FAIL,"VERDICT: FAIL
+REASON: The expected answer is 18 points (Ace 1 + Jack 10 + seven 7) from the Card/Value table, but the answer claims the rules don't cover it, so it misses the key fact rather than correctly declining as unspecified."
+19,direct_lookup,At what hand total may the dealer stop taking cards?,At 17 or higher; the dealer must hit until reaching at least 17.,"**Blackjack:** The dealer must keep taking cards until reaching 17 or higher, so the dealer may stop at 17 or above. [blackjack-p2-c0]
+
+The rummy and Texas Hold'em excerpts don't cover dealer hitting or stopping totals, so the provided rules don't cover this for those games.",rummy-p4-c1;blackjack-p2-c0;texas_holdem-p2-c0,PASS,"VERDICT: PASS
+REASON: The answer states the dealer may stop at 17 or higher and must keep taking cards until reaching at least 17, matching the expected answer; the extra note about other games is correct added context."
+20,direct_lookup,What happens to your original bet on a push?,It is returned.,"In Blackjack, a push (tie) returns your bet. [blackjack-p2-c0]",blackjack-p2-c0;texas_holdem-p3-c0;blackjack-p1-c1,PASS,"VERDICT: PASS
+REASON: The answer states that a push returns the bet, which matches the expected answer that the original bet is returned."
+21,multi_hop,"Your initial two cards are an Ace and a Queen. What is their total, and what payout does the book list for that hand?",21; it is blackjack and is paid at 3:2.,"**Blackjack:** The provided rules don't cover this. The excerpt says to ""add your two card values together"" [blackjack-p1-c1], but it doesn't give card values (including the Ace or Queen) or any payout. Related: the excerpt lists the player's actions (Hit, Stand/Stay, Double Down, Split) but no payouts [blackjack-p1-c1].
+
+**Texas Hold'em:** The provided rules don't cover this. The excerpt only ranks hands with no pair and compares them by highest card [texas_holdem-p1-c2].
+
+**Poker:** The provided rules don't cover this. The excerpts describe hand rankings such as four of a kind, full house, flush, and straight, but give no two-card totals or payouts [poker-p2-c0].",texas_holdem-p1-c2;blackjack-p1-c1;poker-p2-c0,FAIL,"VERDICT: FAIL
+REASON: The expected answer is that the hand totals 21, is blackjack, and pays 3:2, but the response claims the rules don't cover card values or payouts, missing these key facts."
+22,myth_buster,Does insurance pay if you win your main hand but the dealer does not have blackjack?,"No. Insurance pays 2:1 only if the dealer's hidden card has a value of 10, giving the dealer blackjack. The side bet is separate from the main hand.","No. Insurance pays 2:1 only if the dealer's hidden card is a 10-value card, giving them blackjack [blackjack-p2-c0]. The insurance bet's outcome is separate from your main hand, so winning the main hand does not pay the insurance bet, and your main hand is still paid 1:1 [blackjack-p2-c0].",blackjack-p2-c0;blackjack-p1-c0;blackjack-p2-c1,PASS,"VERDICT: PASS
+REASON: The answer states the same core facts as EXPECTED: insurance pays 2:1 only when the dealer has blackjack (hidden 10-value card), and the insurance bet is separate from the main hand. The added note that the main hand pays 1:1 is correct extra detail, and the bracketed citation does not change the substance."
+23,disambiguation,"In Blackjack, is an Ace always worth one point, as it is by default in Standard Rummy?",No. A Blackjack Ace may count as 1 or 11.,"The provided rules don't cover this. The excerpts only cover Rummy, so I can't say how Aces are valued in Blackjack.
+
+Related Rummy rule (not Blackjack): An Ace is low by default, and if it is only allowed to be low, it is typically worth 1 point unless the game's rules say otherwise [rummy-p2-c2]. When an Ace can be high or both low and high, it is valued at 15 points [rummy-p2-c2].",rummy-p2-c1;rummy-p6-c2;rummy-p2-c2,FAIL,"VERDICT: FAIL
+REASON: The expected answer says a Blackjack Ace may count as 1 or 11, but the response claims the rules don't cover Blackjack Ace values, so it misses the key fact."
+24,unanswerable,Does this Blackjack rulebook allow doubling down after splitting a pair?,Not specified. It describes splitting and doubling down separately but gives no rule for combining them.,"The provided rules don't cover this. The excerpts don't say whether doubling down is allowed on a hand after a split.
+
+The closest related rules are that Double Down means ""Double your bet, take one final card, then stand"" [blackjack-p1-c1], and that Split means ""split into two hands by placing a second bet equal to your first"" [blackjack-p1-c1]. Neither rule addresses combining the two.",blackjack-p1-c1;blackjack-p2-c1;blackjack-p1-c0,PASS,"VERDICT: PASS
+REASON: The answer clearly states that the rules don't cover whether doubling down is allowed after a split, matching the EXPECTED ""not specified"" outcome, and accurately notes that the split and double-down rules are given separately without addressing their combination."
+25,direct_lookup,"For a Poker game with seven or more players, what minimum total supply of chips does the book recommend?",At least 200 chips for the game.,"For a poker game with seven or more players, the book recommends a supply of at least 200 chips. [poker-p4-c2]",poker-p4-c2;poker-p5-c1;poker-p5-c0,PASS,"VERDICT: PASS
+REASON: The answer states the same key fact as EXPECTED, a minimum total supply of at least 200 chips for seven or more players."
+26,direct_lookup,"In the book's pot-limit example, six chips are in the pot and someone bets four. After calling, how many additional chips may the next player raise by?","14 additional chips; the player puts in 18 total, including the four-chip call.","After the call, the next player may raise by **14 chips**. The pot holds 10 chips after the bet of four, and the caller adds four more, making 14. The rule then lets the player raise by that 14-chip pot. [poker-p5-c0]",poker-p5-c0;poker-p5-c1;poker-p4-c4,PASS,"VERDICT: PASS
+REASON: The answer gives the expected 14 additional chips with correct reasoning (the 10-chip pot after the bet, plus the four-chip call, makes 14), though it does not state the 18-chip total the player commits."
+27,multi_hop,"A player checks, then faces a bet later in the round and folds. Must they call that bet, and do they recover chips already committed to the pot?","They need not call if they fold, but they lose chips already committed to that pot.","The question doesn't name a game, so I answer for each game the excerpts cover.
+
+**Texas Hold'em**
+- No, they don't have to call. After a bet, subsequent players can fold, call, or raise. [texas_holdem-p3-c0]
+- The excerpts don't say anything about recovering chips. Checking is ""decline to bet, but keep their cards,"" so a check adds no chips to the pot. [texas_holdem-p3-c0]
+
+**Poker**
+- No, they don't have to call. A player facing a bet may call, raise, or ""drop"" (""fold""). [poker-p3-c0]
+- Folding means the player ""puts no chips in the pot, discards their hand, and is out of the betting until the next deal."" [poker-p3-c0]
+- Checking is ""a bet of nothing,"" so no chips are committed by checking. The excerpts don't address recovering chips from earlier contributions, such as antes. [poker-p3-c3] [poker-p3-c0]",texas_holdem-p3-c0;poker-p3-c3;poker-p3-c0,FAIL,"VERDICT: FAIL
+REASON: The answer correctly says the player need not call, but it never states that the player loses chips already committed to the pot. It instead says the excerpts don't address recovering chips, which misses the expected key fact."
+28,myth_buster,Can suit ranking break a tie between otherwise equal Poker hands?,No. Suits have no relative rank; tied players split the pot.,"No. In Poker, suits have no relative rank, so identical hands are tied and the tied players split the pot. [poker-p2-c2]
+
+Texas Hold'em, which is a separate game in the excerpts, also states that all suits are equal and identical hands split the pot. [texas_holdem-p4-c0]",poker-p2-c2;texas_holdem-p4-c0;texas_holdem-p1-c2,PASS,"VERDICT: PASS
+REASON: The answer states that suits have no relative rank and tied hands split the pot, matching the expected answer; the extra note about Texas Hold'em is accurate additional context and doesn't contradict it."
+29,disambiguation,"In Draw Poker, are a player's cards face up as some are in Stud Poker?",No. Draw Poker deals all cards face down; Stud Poker deals some face up.,"No. In Draw Poker, all the cards are dealt face down to the players. [poker-p6-c0] In Stud Poker, by contrast, some cards are dealt face up as the betting progresses. [poker-p6-c0]",poker-p6-c0;poker-p7-c1;poker-p6-c1,PASS,"VERDICT: PASS
+REASON: The answer says Draw Poker deals all cards face down and Stud Poker deals some face up, matching the expected answer; the bracketed citations are extra but do not contradict it."
+30,unanswerable,What exact penalty does this Poker rulebook prescribe for exposing a hand before the final betting round?,Not specified in the supplied rulebook.,"The provided rules don't cover this.
+
+Related rule: a player who drops (folds) forfeits any chips already put into the pot [poker-p3-c1], and hands are shown face up only at the showdown after the final betting interval [poker-p3-c1].",texas_holdem-p4-c0;poker-p3-c0;poker-p3-c1,PASS,"VERDICT: PASS
+REASON: The answer clearly states that the provided rules don't cover the penalty, which matches the expected ""not specified"" response, and its added related rules don't contradict anything."
+31,direct_lookup,How many private hole cards is each player dealt?,Two.,Each player is dealt two private hole cards. [texas_holdem-p2-c1] [texas_holdem-p2-c0],texas_holdem-p2-c1;rummy-p4-c1;texas_holdem-p2-c0,PASS,"VERDICT: PASS
+REASON: The answer states that each player is dealt two private hole cards, which matches the expected answer of ""Two."" The citation tags do not change the substance."
+32,direct_lookup,"If nobody bets during the final betting round, who shows their cards first at showdown?",The remaining player immediately clockwise from the button.,"**Texas Hold'em:** If there is no bet on the final round, the player immediately clockwise from the button shows their cards first. [texas_holdem-p4-c0]
+
+**Poker:** The provided rules don't cover this. The closest related rule is that at showdown, each player who remains shows their hand face up on the table, with no order specified. [poker-p3-c1]",texas_holdem-p4-c0;texas_holdem-p3-c3;poker-p3-c1,PASS,"VERDICT: PASS
+REASON: The answer's Texas Hold'em section states that the player immediately clockwise from the button shows first when no bet is made on the final round, matching the expected answer; the extra Poker note about the rules not covering it is additional context that doesn't contradict it."
+33,multi_hop,"After betting on the flop ends, which community card is dealt next, and who acts first in the next betting round?","The turn, which is the fourth community card; betting starts with the first active player immediately clockwise from the button.","The next card is the turn, the fourth community card, dealt face-up on the board. [texas_holdem-p3-c2]
+
+Betting begins with the active player immediately clockwise from the button. [texas_holdem-p3-c2]",texas_holdem-p3-c2;texas_holdem-p3-c3;texas_holdem-p4-c0,PASS,"VERDICT: PASS
+REASON: The answer correctly identifies the turn as the fourth community card and states that betting starts with the active player immediately clockwise from the button, matching the expected answer."
+34,myth_buster,Must a player use both hole cards to make their final five-card hand?,"No. They may use zero, one, or two hole cards.","No. A player may use zero, one, or two of their private hole cards, combined with the community cards, to make the best five-card hand. [texas_holdem-p2-c1]",texas_holdem-p2-c1;texas_holdem-p2-c0;texas_holdem-p4-c0,PASS,"VERDICT: PASS
+REASON: The answer says a player may use zero, one, or two hole cards, matching the expected answer that both are not required and any number from zero to two is allowed."
+35,disambiguation,"In Texas Hold'em, who posts the big blind relative to the dealer button?","The player immediately clockwise from the small blind, who is immediately clockwise from the button.","In Texas Hold'em, the big blind is posted by the player two seats clockwise from the dealer button. The player immediately clockwise from the button posts the small blind, and the player immediately clockwise from the small blind posts the big blind [texas_holdem-p2-c2].",texas_holdem-p2-c2;texas_holdem-p2-c3;texas_holdem-p2-c1,PASS,"VERDICT: PASS
+REASON: The answer correctly states that the small blind is immediately clockwise from the button and the big blind is immediately clockwise from the small blind, which is the same placement as the expected answer."
+36,unanswerable,What fixed minimum buy-in does this Texas Hold'em rulebook require?,Not specified in the supplied rulebook.,"The provided rules don't cover this.
+
+Closest related rule: the Texas Hold'em excerpt covers blinds, not buy-ins. The small blind is posted by the player immediately clockwise from the button, and the big blind is typically twice the small blind [texas_holdem-p2-c2].",texas_holdem-p2-c2;poker-p4-c2;poker-p4-c4,PASS,"VERDICT: PASS
+REASON: The answer clearly states that the rules don't cover the buy-in amount, matching the expected ""not specified"" response, and the extra blind information is related context that doesn't contradict it."
+37,disambiguation,Can jokers be used in the deck?,"General poker: a standard 52-card pack is used, sometimes with one or two jokers added, often as wild cards. Texas Hold'em: the book specifies a standard 52-card pack; jokers appear only in its note that five of a kind requires a wild card.","**Poker:** Yes, optionally. The standard 52-card pack is sometimes used with one or two jokers added [poker-p1-c2]. Poker players are increasingly adding one or both jokers as wild cards [poker-p7-c0]. In a ""Bug"" variant, the joker counts as an ace, as a card of any suit for a flush, or as any rank and suit for a straight or straight flush [poker-p7-c0].
+
+**Rummy:** The excerpts show jokers being played as wild cards [rummy-p2-c3]. They don't state whether jokers are included in the deck or how many are used.",rummy-p2-c3;poker-p7-c0;poker-p1-c2,FAIL,"VERDICT: FAIL
+REASON: The answer says jokers can optionally be added to poker decks, but it omits the expected Texas Hold'em rule that the book specifies a standard 52-card pack, with jokers appearing only in the five-of-a-kind wild-card note."
+38,disambiguation,What is the first forced bet in a hand?,"General poker: an ante, if the game's rules require one. Texas Hold'em: the small blind, posted by the player immediately clockwise from the button; an ante may also be required depending on the structure.","**Texas Hold'em:** The provided rules don't cover this. The excerpt says only that ""blinds and antes are once again posted"" when a new hand begins [texas_holdem-p4-c0], and it doesn't say which forced bet comes first.
+
+**Poker:** The provided rules don't cover this. The excerpt covers turn order and betting but doesn't mention forced bets [poker-p3-c4].
+
+**Blackjack:** The provided rules don't cover this. The excerpt covers player actions after the cards are dealt, with no forced bets [blackjack-p1-c1].",poker-p3-c4;blackjack-p1-c1;texas_holdem-p4-c0,FAIL,"VERDICT: FAIL
+REASON: The expected answer states that in Texas Hold'em the first forced bet is the small blind, posted by the player clockwise from the button, and that general poker starts with an ante if required, but the answer says the rules don't cover this for either game."
+39,disambiguation,What happens if there's a tie?,Ambiguous: depends on the game. Blackjack: a push returns your bet. Poker: identical hands split the pot. Texas Hold'em: the pot is divided equally between the best hands.,"**Poker:** Hands that are identical card for card are tied, and the tied players split the pot. [poker-p2-c2]
+
+**Rummy:** The excerpts don't cover how ties are handled. The closest related rule is from the Elimination variant: if the last 2 players both exceed the target score on the last round, the player with the lowest score wins. [rummy-p7-c0]",poker-p2-c2;poker-p3-c1;rummy-p7-c0,PASS,"VERDICT: PASS
+REASON: The answer correctly says tie handling depends on the game and gives the poker rule (identical hands split the pot), which matches EXPECTED, though it omits the blackjack push example."
+40,disambiguation,What is an Ace worth?,"Ambiguous: depends on the game. Blackjack: 1 or 11. Standard Rummy: 1 by default, or 15 under the high-Ace variation. Poker: ranks high, so an ace-high hand beats a king-high hand.","In Rummy, an Ace is worth 15 points when it can be high or either low or high. [rummy-p2-c2] [rummy-p6-c2]
+
+If the Ace can only be low, it typically has a value of 1 point, unless the game's rules say otherwise. [rummy-p2-c2]",rummy-p2-c2;rummy-p2-c1;rummy-p6-c2,FAIL,"VERDICT: FAIL
+REASON: The answer covers only Rummy and presents the 15-point high Ace as the normal case, when EXPECTED says Rummy defaults to 1 and 15 is a variant. It omits the Blackjack (1 or 11) and Poker (ace-high) values and never says the answer depends on the game."
+41,disambiguation,Who goes first?,Ambiguous: depends on the game. CATAN: the player with the highest dice roll. Monopoly: the highest roller. Rummy: the player to the left of the dealer.,"**Catan:** The player with the highest dice roll is the first player. [catan-p12-c0]
+
+**Rummy:** The provided rules don't cover this. The excerpt only says variations must be agreed on ""before the first player takes their turn."" [rummy-p6-c1]
+
+**Texas Hold'em:** The provided rules don't cover this. The closest related rule is about showdown order: if no one bet on the final round, the player immediately clockwise from the button shows their cards first. [texas_holdem-p4-c0]",catan-p12-c0;rummy-p6-c1;texas_holdem-p4-c0,FAIL,"VERDICT: FAIL
+REASON: The answer says the Rummy rules don't cover who goes first, but the expected answer states the player to the left of the dealer goes first, and the answer omits Monopoly entirely."

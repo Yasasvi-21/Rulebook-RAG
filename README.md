@@ -33,3 +33,6 @@ No game named → answer per game, labeled; retrieve per game and include only g
 |---|---|---|---|---|---|
 | v1 | Dense baseline (MiniLM, 800-char chunks) | 0.66 | 0.89 | 0.89 | all misses ranked 6–10 |
 | v2 | + cross-encoder reranker on top 10 | 0.74 | 0.97 | 1.00 | +X ms/query |
+
+
+| v3 | Generation: Haiku, prompt v2, k=3, max_tokens fix | — | — | — | Answer accuracy 27/41; myth 6/6, unanswerable 6/6, multi-hop 2/7 |
