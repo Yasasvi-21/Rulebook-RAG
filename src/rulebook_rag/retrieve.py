@@ -55,7 +55,7 @@ class Retriever:
 
         # 1. one game named: search only that game
         if len(named) == 1:
-            chunks, _ = self.search_in_game(question, named[0], k)
+            chunks, _ = self.search_in_game(question, named[0], k+1)
             return chunks
 
         # 2. no game named: global top k, plus any missing games above the floor
