@@ -4,7 +4,18 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 
 CHUNKS_PATH = "data/processed/chunks.json"
 
+GAME_ALIASES = {
+    "texas_holdem": ["texas hold'em", "hold'em", "holdem", "hold em"],
+    "blackjack": ["blackjack", "black jack"],
+    "monopoly": ["monopoly"],
+    "catan": ["catan"],
+    "rummy": ["rummy"],
+    "poker": ["poker"],
+}
 
+def detect_games(question):
+    q = question.lower()
+    return [game for game, names in GAME_ALIASES.items() if any(n in q for n in names)]
 class Retriever:
     def __init__(self):
         # runs once: load everything retrieval needs
@@ -29,6 +40,28 @@ class Retriever:
         scores = self.reranker.predict(pairs)
         order = np.argsort(scores)[::-1][:k]
         return [shortlist[i] for i in order]
+
+    
+    def search_in_game(self, question, game, k):
+        # rank all chunks, keep this game's, rerank its top 10
+        shortlist = [c for c in self.dense(question, k=len(self.chunks)) if c["game"] == game][:10]
+        scores = self.reranker.predict([(question, c["text"]) for c in shortlist])
+        order = np.argsort(scores)[::-1][:k]
+        return [shortlist[i] for i in order], max(scores)
+
+
+    def search_routed(self, question, k=5, per_game=2, floor=-10.0):
+        named = detect_games(question)
+        if len(named) == 1:                          # one game named: search only it
+            chunks, _ = self.search_in_game(question, named[0], k)
+            return chunks
+        games = named or sorted({c["game"] for c in self.chunks})   # two named, or none: all games
+        results = []
+        for game in games:
+            chunks, best = self.search_in_game(question, game, per_game)
+            if best > floor:                          # drop games far below everything else
+                results.extend(chunks)
+        return results
 
 
 if __name__ == "__main__":
