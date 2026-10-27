@@ -41,4 +41,5 @@ No game named → answer per game, labeled; retrieve per game and include only g
  v4 | k=3 → k=5 | — | — | — | Answer accuracy 31/41; multi-hop 2/7 → 5/7 |
 
  | v6 | global top-5 + missing games | … | 32/41; disamb 7/9, multi-hop 3/7 |
- 
+
+ | v7 | k+1 for single-game questions | 32/41; multi-hop 5/7, myth 5/6 (checking) |

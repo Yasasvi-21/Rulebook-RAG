@@ -61,13 +61,14 @@ class Retriever:
         # 2. no game named: global top k, plus any missing games above the floor
         if not named:
             results = self.search(question, k=k)
-            have = {c["game"] for c in results}
+            seen = {c["id"] for c in results}
             for game in sorted({c["game"] for c in self.chunks}):
-                if game in have:
-                    continue
                 chunks, best = self.search_in_game(question, game, per_game)
                 if best > floor:
-                    results.extend(chunks)
+                    for c in chunks:
+                        if c["id"] not in seen:
+                            results.append(c)
+                            seen.add(c["id"])
             return results
 
         # 3. two or more games named: a few chunks from each named game
