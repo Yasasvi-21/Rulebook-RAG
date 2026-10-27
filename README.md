@@ -36,3 +36,6 @@ No game named → answer per game, labeled; retrieve per game and include only g
 
 
 | v3 | Generation: Haiku, prompt v2, k=3, max_tokens fix | — | — | — | Answer accuracy 27/41; myth 6/6, unanswerable 6/6, multi-hop 2/7 |
+
+
+ v4 | k=3 → k=5 | — | — | — | Answer accuracy 31/41; multi-hop 2/7 → 5/7 |
