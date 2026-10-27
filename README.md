@@ -43,3 +43,5 @@ No game named → answer per game, labeled; retrieve per game and include only g
  | v6 | global top-5 + missing games | … | 32/41; disamb 7/9, multi-hop 3/7 |
 
  | v7 | k+1 for single-game questions | 32/41; multi-hop 5/7, myth 5/6 (checking) |
+ 
+ | v8 | no-game path searches every game, dedup by id | 35/41; disamb 8/9, myth 6/6, unanswerable 6/6 |
