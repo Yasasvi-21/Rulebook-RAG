@@ -52,15 +52,29 @@ class Retriever:
 
     def search_routed(self, question, k=5, per_game=2, floor=-10.0):
         named = detect_games(question)
-        if len(named) == 1:                          # one game named: search only it
+
+        # 1. one game named: search only that game
+        if len(named) == 1:
             chunks, _ = self.search_in_game(question, named[0], k)
             return chunks
-        games = named or sorted({c["game"] for c in self.chunks})   # two named, or none: all games
+
+        # 2. no game named: global top k, plus any missing games above the floor
+        if not named:
+            results = self.search(question, k=k)
+            have = {c["game"] for c in results}
+            for game in sorted({c["game"] for c in self.chunks}):
+                if game in have:
+                    continue
+                chunks, best = self.search_in_game(question, game, per_game)
+                if best > floor:
+                    results.extend(chunks)
+            return results
+
+        # 3. two or more games named: a few chunks from each named game
         results = []
-        for game in games:
-            chunks, best = self.search_in_game(question, game, per_game)
-            if best > floor:                          # drop games far below everything else
-                results.extend(chunks)
+        for game in named:
+            chunks, _ = self.search_in_game(question, game, per_game)
+            results.extend(chunks)
         return results
 
 
