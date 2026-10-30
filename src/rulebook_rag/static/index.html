@@ -4,41 +4,156 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rulebook RAG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; color: #222; }
-    h1 { font-size: 1.4rem; }
+    :root { --ink: #1f2328; --muted: #6b7280; --accent: #e63946; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: "Nunito", system-ui, sans-serif; color: var(--ink);
+      background: linear-gradient(135deg, #0f5132 0%, #1b4965 50%, #6a1b4d 100%);
+      overflow-x: hidden;
+    }
+
+    /* floating symbols layer */
+    #bg { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    #bg span { position: absolute; top: 100%; color: white; opacity: 0.14; animation: drift linear infinite; }
+    @keyframes drift { to { transform: translateY(-130vh) rotate(360deg); } }
+
+    main { position: relative; z-index: 1; max-width: 760px; margin: 48px auto; padding: 0 16px; }
+    .panel { background: white; border-radius: 18px; padding: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); }
+    h1 { margin: 0 0 4px; font-family: "Righteous", cursive; font-size: 2.2rem; letter-spacing: 0.5px; }
+    .subtitle { margin: 0 0 20px; color: var(--muted); }
     form { display: flex; gap: 8px; }
-    input { flex: 1; padding: 10px; font-size: 1rem; }
-    button { padding: 10px 16px; font-size: 1rem; cursor: pointer; }
-    #answer { white-space: pre-wrap; margin-top: 24px; line-height: 1.5; }
-    #sources { margin-top: 16px; font-size: 0.9rem; color: #555; }
-    .cited { font-weight: 600; color: #222; }
+    input { flex: 1; padding: 12px 14px; font-size: 1rem; font-family: inherit; border: 2px solid #d0d7de; border-radius: 10px; }
+    input:focus { outline: none; border-color: var(--accent); }
+    button {
+      padding: 12px 20px; font-size: 1rem; border: 0; border-radius: 10px;
+      background: var(--accent); color: white; cursor: pointer;
+      font-family: "Righteous", cursive; letter-spacing: 0.5px;
+    }
+    button:disabled { opacity: 0.6; cursor: wait; }
+
+    /* loader */
+    #loader { display: none; text-align: center; margin-top: 28px; }
+    #symbol { font-size: 4rem; height: 5rem; line-height: 5rem; animation: pop 0.3s ease; }
+    @keyframes pop { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    #loader-msg { color: var(--muted); margin-top: 8px; }
+
+    #answer { white-space: pre-wrap; margin-top: 24px; line-height: 1.6; }
+    #sources { margin-top: 16px; font-size: 0.9rem; color: var(--muted); }
+    .cited { font-weight: 700; color: var(--ink); }
     .error { color: #b00020; }
+
+    /* respect users who turn off animations in their OS settings */
+    @media (prefers-reduced-motion: reduce) { #bg span, #symbol { animation: none; } }
   </style>
 </head>
 <body>
-  <h1>Ask the rulebooks</h1>
-  <p>Catan, Monopoly, Blackjack, Poker, Texas Hold'em, Rummy</p>
+  <div id="bg"></div>
 
-  <form id="ask-form">
-    <input id="question" placeholder="e.g. Do you collect money on Free Parking?" autocomplete="off">
-    <button type="submit">Ask</button>
-  </form>
+  <main>
+    <div class="panel">
+      <h1>Who's cheating? Let's check the rulebook.</h1>
+      <p class="subtitle">Catan · Monopoly · Blackjack · Poker · Texas Hold'em · Rummy</p>
 
-  <div id="answer"></div>
-  <div id="sources"></div>
+      <form id="ask-form">
+        <input id="question" placeholder="e.g. Do you really get money on Free Parking?" autocomplete="off">
+        <button id="ask-btn" type="submit">Ask</button>
+      </form>
+
+      <div id="loader">
+        <div id="symbol"></div>
+        <div id="loader-msg"></div>
+      </div>
+
+      <div id="answer"></div>
+      <div id="sources"></div>
+    </div>
+  </main>
 
   <script>
+    // ---------- themes per game ----------
+    const THEMES = {
+      cards:    { symbols: ["♠", "♥", "♦", "♣", "A", "K", "Q", "J"], msg: "Shuffling the deck…" },
+      monopoly: { symbols: ["$", "🎩", "🏠", "🎲", "💰"],            msg: "Counting the money…" },
+      catan:    { symbols: ["⬢", "🌾", "🐑", "🧱", "🪵", "⛰️", "🎲"], msg: "Gathering resources…" },
+    };
+    const GAME_THEME = { poker: "cards", texas_holdem: "cards", blackjack: "cards", rummy: "cards",
+                         monopoly: "monopoly", catan: "catan" };
+    // same aliases as detect_games in retrieve.py
+    const ALIASES = {
+      texas_holdem: ["texas hold'em", "hold'em", "holdem", "hold em"],
+      blackjack: ["blackjack", "black jack"], monopoly: ["monopoly"],
+      catan: ["catan"], rummy: ["rummy"], poker: ["poker"],
+    };
+
+    function pickTheme(question) {
+      const q = question.toLowerCase();
+      const games = Object.keys(ALIASES).filter(g => ALIASES[g].some(name => q.includes(name)));
+      if (games.length === 1) return THEMES[GAME_THEME[games[0]]];
+      return {   // no game, or several: mix everything
+        symbols: [...THEMES.cards.symbols, ...THEMES.monopoly.symbols, ...THEMES.catan.symbols],
+        msg: "Searching the rulebooks…",
+      };
+    }
+
+    // ---------- floating background ----------
+    const BG_SYMBOLS = ["♠", "♥", "♦", "♣", "$", "🎲", "⬢", "A", "K", "Q"];
+    const bg = document.getElementById("bg");
+    for (let i = 0; i < 40; i++) {
+      const s = document.createElement("span");
+      s.textContent = BG_SYMBOLS[i % BG_SYMBOLS.length];
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.fontSize = 18 + Math.random() * 40 + "px";
+      s.style.animationDuration = 20 + Math.random() * 30 + "s";
+      s.style.animationDelay = -Math.random() * 50 + "s";   // negative = already mid-flight on load
+      bg.appendChild(s);
+    }
+
+    // ---------- loader ----------
+    const loader = document.getElementById("loader");
+    const symbolEl = document.getElementById("symbol");
+    const loaderMsg = document.getElementById("loader-msg");
+    let timer = null;
+
+    function startLoader(theme) {
+      loader.style.display = "block";
+      loaderMsg.textContent = theme.msg;
+      let i = 0;
+      const show = () => {
+        const s = theme.symbols[i++ % theme.symbols.length];
+        symbolEl.textContent = s;
+        symbolEl.style.color = (s === "♥" || s === "♦") ? "#e63946" : "var(--ink)";
+        symbolEl.style.animation = "none";      // restart the pop animation
+        void symbolEl.offsetHeight;
+        symbolEl.style.animation = "";
+      };
+      show();
+      timer = setInterval(show, 350);
+    }
+
+    function stopLoader() {
+      clearInterval(timer);
+      loader.style.display = "none";
+    }
+
+    // ---------- asking ----------
     const form = document.getElementById("ask-form");
+    const btn = document.getElementById("ask-btn");
     const answerEl = document.getElementById("answer");
     const sourcesEl = document.getElementById("sources");
 
     form.addEventListener("submit", async (event) => {
-      event.preventDefault();                       // stop the page from reloading
+      event.preventDefault();
       const question = document.getElementById("question").value;
-      answerEl.textContent = "Thinking…";
+      answerEl.textContent = "";
       answerEl.className = "";
       sourcesEl.textContent = "";
+      btn.disabled = true;
+      startLoader(pickTheme(question));
 
       try {
         const res = await fetch("/ask", {
@@ -49,12 +164,12 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || "Request failed");
 
-        answerEl.textContent = data.answer;         // textContent, never innerHTML
+        answerEl.textContent = data.answer;
         const list = document.createElement("ul");
         for (const s of data.sources) {
           const li = document.createElement("li");
           li.textContent = `${s.id} (${s.game}, page ${s.page})`;
-          if (data.answer.includes(s.id)) li.className = "cited";   // bold = actually cited
+          if (data.answer.includes(s.id)) li.className = "cited";
           list.appendChild(li);
         }
         sourcesEl.textContent = "Sources:";
@@ -62,6 +177,9 @@
       } catch (err) {
         answerEl.textContent = err.message;
         answerEl.className = "error";
+      } finally {
+        stopLoader();          // runs on success AND on error, so the loader never gets stuck
+        btn.disabled = false;
       }
     });
   </script>
