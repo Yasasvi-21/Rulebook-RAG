@@ -33,17 +33,9 @@ No game named → answer per game, labeled; retrieve per game and include only g
 |---|---|---|---|---|---|
 | v1 | Dense baseline (MiniLM, 800-char chunks) | 0.66 | 0.89 | 0.89 | all misses ranked 6–10 |
 | v2 | + cross-encoder reranker on top 10 | 0.74 | 0.97 | 1.00 | +X ms/query |
-
-
 | v3 | Generation: Haiku, prompt v2, k=3, max_tokens fix | — | — | — | Answer accuracy 27/41; myth 6/6, unanswerable 6/6, multi-hop 2/7 |
-
-
- v4 | k=3 → k=5 | — | — | — | Answer accuracy 31/41; multi-hop 2/7 → 5/7 |
-
- | v6 | global top-5 + missing games | … | 32/41; disamb 7/9, multi-hop 3/7 |
-
- | v7 | k+1 for single-game questions | 32/41; multi-hop 5/7, myth 5/6 (checking) |
- 
- | v8 | no-game path searches every game, dedup by id | 35/41; disamb 8/9, myth 6/6, unanswerable 6/6 |
-
- | v9 | same as v8, run via `python -m rulebook_rag.eval` | 36/41 |
+|v4 | k=3 → k=5 | — | — | — | Answer accuracy 31/41; multi-hop 2/7 → 5/7 |
+| v6 | global top-5 + missing games | … | 32/41; disamb 7/9, multi-hop 3/7 |
+| v7 | k+1 for single-game questions | 32/41; multi-hop 5/7, myth 5/6 (checking) |
+| v8 | no-game path searches every game, dedup by id | 35/41; disamb 8/9, myth 6/6, unanswerable 6/6 |
+| v9 | same as v8, run via `python -m rulebook_rag.eval` | 36/41 |
