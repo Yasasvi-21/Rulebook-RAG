@@ -5,6 +5,8 @@ from pydantic import BaseModel
 
 from rulebook_rag.generate import Generator
 
+from fastapi.responses import FileResponse
+
 state = {}
 
 
@@ -44,3 +46,8 @@ def ask(q: Question):
     text, chunks = state["gen"].answer(q.question)
     sources = [Source(id=c["id"], game=c["game"], page=c["page"]) for c in chunks]
     return Answer(answer=text, sources=sources)
+
+
+@app.get("/")
+def home():
+       return FileResponse("src/rulebook_rag/static/index.html")
