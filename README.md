@@ -127,3 +127,6 @@ The rulebooks are not included in this repo (copyright belongs to the publishers
 | Rummy | `rummy.pdf` | [Rummy Basics](https://www.rummyrulebook.com/pages/rummy-basics/) + [Standard Rummy](https://www.rummyrulebook.com/pages/standard-rummy/) | Manual copy of both pages into Google Docs, exported as PDF | 2026-10-13 |
 
 Web pages can change. The eval set in `eval/questions.csv` was written against the versions accessed on the dates above.
+
+
+  **Live demo:** https://rulebook-rag-yasasvi.fly.dev (first load may take ~30 seconds while the server wakes up)
