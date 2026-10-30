@@ -7,8 +7,28 @@ from rulebook_rag.generate import Generator
 
 from fastapi.responses import FileResponse
 
-state = {}
+import time
+from collections import defaultdict, deque
 
+from fastapi import Request
+from pydantic import Field
+
+state = {}
+RATE_LIMIT = 5        # questions
+WINDOW = 60           # per this many seconds
+hits = defaultdict(deque)
+
+
+def check_rate_limit(request: Request):
+    # Fly.io puts the real visitor IP in this header; locally, use the direct connection
+    ip = request.headers.get("fly-client-ip") or request.client.host
+    now = time.time()
+    q = hits[ip]
+    while q and now - q[0] > WINDOW:     # forget requests older than the window
+        q.popleft()
+    if len(q) >= RATE_LIMIT:
+        raise HTTPException(status_code=429, detail="Too many questions. Please wait a minute and try again.")
+    q.append(now)
 
 @asynccontextmanager
 async def lifespan(app):
@@ -20,7 +40,7 @@ app = FastAPI(title="Rulebook RAG", lifespan=lifespan)
 
 
 class Question(BaseModel):
-    question: str
+    question: str = Field(max_length=500)
 
 
 class Source(BaseModel):
@@ -40,7 +60,8 @@ def health():
 
 
 @app.post("/ask", response_model=Answer)
-def ask(q: Question):
+def ask(q: Question, request: Request):
+    check_rate_limit(request)
     if not q.question.strip():
         raise HTTPException(status_code=400, detail="Question is empty.")
     text, chunks = state["gen"].answer(q.question)

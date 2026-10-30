@@ -1,0 +1,7 @@
+.venv/
+.env
+.git/
+data/raw/
+notebooks/
+eval/
+__pycache__/
